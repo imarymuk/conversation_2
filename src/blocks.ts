@@ -1,4 +1,67 @@
-let blocksRaw = {
+type NodeType =
+  | "horizontal-bar"
+  | "system-note"
+  | "barometer"
+  | "system-options"
+  | "customer-message"
+  | "reference";
+
+interface BarometerNode {
+  type: "barometer";
+  points: number;
+  expression: "none" | "happy" | "angry";
+  message: string;
+  last?: boolean;
+}
+
+interface CustomerMessageNode {
+  type: "customer-message";
+  messages: string[];
+  last?: boolean;
+}
+
+interface HorizontalBarNode {
+  type: "horizontal-bar";
+  last?: boolean;
+}
+
+interface ReferenceNode {
+  type: "reference";
+  nextNode: string;
+  last?: boolean;
+}
+
+interface SystemNoteNode {
+  type: "system-note";
+  message: string;
+  last?: boolean;
+}
+
+interface SystemOptionsNode {
+  type: "system-options";
+  variant?: "primary";
+  options: {
+    label: string;
+    nextNode: string;
+  }[];
+  last?: boolean;
+}
+
+type BlockNode =
+  | BarometerNode
+  | CustomerMessageNode
+  | HorizontalBarNode
+  | ReferenceNode
+  | SystemNoteNode
+  | SystemOptionsNode;
+
+type DialogueBlock = BlockNode[];
+
+interface DialogueBlocks {
+  [key: string]: DialogueBlock;
+}
+
+let blocksRaw: DialogueBlocks = {
   init: [
     {
       type: "horizontal-bar"
